@@ -1,8 +1,22 @@
-import { Button, Card, Checkbox, Form, Input } from "antd";
+import { Button, Card, Checkbox, Form, Input, message } from "antd";
 import React from "react";
 import logo from "./img/logo.jpg";
 import "./index.scss";
+import { useStore } from "../../store";
+import  {useNavigate} from 'react-router-dom'
+
 function Login() {
+  const {loginStore}=useStore()
+  const navigate=useNavigate()
+  const onFinish = async(values: any) => {
+    //获取token
+   await loginStore.getToken({
+      mobile:values.mobile,
+      code:values.code
+    })
+    navigate('/',{replace:true})
+    message.success(`欢迎哈皮用户【${values.mobile}】来到商展`)
+  };
   return (
     <div className="login">
       <Card className="login-container">
@@ -11,9 +25,10 @@ function Login() {
         <Form
           initialValues={{ remember: true }}
           validateTrigger={["onBlur", "onChange"]}
+          onFinish={onFinish}
         >
           <Form.Item
-            name="username"
+            name="mobile"
             rules={[
               { required: true, message: "请输入手机号!" },
               {
@@ -26,7 +41,7 @@ function Login() {
             <Input size="large" placeholder="请输入手机号" />
           </Form.Item>
           <Form.Item
-            name="password"
+            name="code"
             rules={[
               { required: true, message: "请输入验证码!" },
               { len: 6, message: "验证码6个字符", validateTrigger: "onBlur" },
