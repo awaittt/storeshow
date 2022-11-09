@@ -1,5 +1,5 @@
-import { Layout, Menu, Popconfirm } from "antd";
-import React from "react";
+import { Layout, Menu, message, Popconfirm } from "antd";
+import React, { useEffect, useState } from "react";
 import {
   HomeOutlined,
   DiffOutlined,
@@ -8,20 +8,55 @@ import {
 } from "@ant-design/icons";
 import "./index.scss";
 import logo from "../../img/dd.jpeg";
-import { Link, Outlet,useLocation } from "react-router-dom";
+import { Link, Outlet,useLocation,useNavigate } from "react-router-dom";
+import {useStore} from '../../store/index'
+import {observer} from 'mobx-react-lite'
+import { http } from "../../utils";
+
+interface userInfo{
+  id: string
+        photo:string
+        name: string
+        mobile: string
+        gender: number
+        birthday: string
+}
 interface IProps {}
+
 const { Header, Sider } = Layout;
 const OutLayout: React.FC<IProps> = () => {
   const {pathname}=useLocation();
+  const {userStore,loginStore}=useStore()
+  let [userInfo,setUserInfo]=useState<userInfo>()
+  useEffect(()=>{
+    getUser();
+    userStore.getUserInfo()
+  },[])
+  const getUser=()=>{
+     http.get('/user/profile').then((ret)=>{
+          if(ret){
+            setUserInfo(ret.data)
+          }else{
+            message.info('获取用户信息失败')
+          }
+     })
+  }
+  const navigate=useNavigate()
+
+  const onConfirm=()=>{
+    loginStore.clearToken();
+    navigate('/login')
+  }
 
   return (
     <Layout>
       <Header className="header">
         <img src={logo} alt="logo" className="logo" />
         <div className="user-info">
-          <span className="user-name">user.name</span>
+          <span className="user-name">{userInfo?.name}</span>
           <span className="user-logout">
-            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
+            <Popconfirm
+            onConfirm={onConfirm} title="是否确认退出？" okText="退出" cancelText="取消">
               <LogoutOutlined /> 退出
             </Popconfirm>
           </span>
@@ -54,4 +89,4 @@ const OutLayout: React.FC<IProps> = () => {
   );
 };
 
-export { OutLayout };
+export default observer(OutLayout)

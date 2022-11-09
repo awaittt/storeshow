@@ -1,12 +1,13 @@
 import React,{useContext} from "react"
 import { LoginStore } from "./Login.Store"
+import { UserStore } from "./UserStore"
 
 
 
 class RootStore {
     constructor() {
       this.loginStore = new LoginStore()
-
+      this.userStore=new UserStore()
       // ...
     }
   }

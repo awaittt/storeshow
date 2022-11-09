@@ -24,6 +24,10 @@ class LoginStore{
         //存到本地
         setToken(res.data.token)
     }
+    clearToken=()=>{
+        this.token=''
+        removeToken()
+    }
 }
 
 export {LoginStore}
