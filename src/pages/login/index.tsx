@@ -12,7 +12,7 @@ function Login() {
     //获取token
    await loginStore.getToken({
       mobile:values.mobile,
-      code:values.code
+      code:values.code,
     })
     navigate('/',{replace:true})
     message.success(`欢迎哈皮用户【${values.mobile}】来到商展`)
@@ -49,7 +49,14 @@ function Login() {
           >
             <Input size="large" placeholder="请输入验证码" />
           </Form.Item>
-          <Form.Item name="remember" valuePropName="checked">
+          <Form.Item name="remember" valuePropName="checked"             
+          rules={[
+              { required:true ,message:"请勾选「用户协议」和「隐私条款」" },
+              {
+                validator: (_, value) =>
+                  value ? Promise.resolve() : Promise.reject(new Error('请先勾选「用户协议」和「隐私条款」')),
+              },
+]}>
             <Checkbox className="login-checkbox-label">
               我已阅读并同意「用户协议」和「隐私条款」
             </Checkbox>

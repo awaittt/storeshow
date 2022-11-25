@@ -1,4 +1,4 @@
-import { Layout, Menu, message, Popconfirm } from "antd";
+import { Breadcrumb, Layout, Menu, MenuProps, message, Popconfirm } from "antd";
 import React, { useEffect, useState } from "react";
 import {
   HomeOutlined,
@@ -48,27 +48,51 @@ const OutLayout: React.FC<IProps> = () => {
     navigate('/login')
   }
 
+  //页面静态数据区域
+
+  type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem('数据概览', '/', <HomeOutlined />),
+  getItem('内容管理', '/content', <DiffOutlined />),
+  // getItem('User', 'sub1', <UserOutlined />, [
+  //   getItem('Tom', '3'),
+  //   getItem('Bill', '4'),
+  //   getItem('Alex', '5'),
+  // ]),
+ 
+];
+  let menuData=[
+    {name:'数据概览',icon:{}}
+  ]
+
   return (
     <Layout>
-      <Header className="header">
-        <img src={logo} alt="logo" className="logo" />
-        <div className="user-info">
-          <span className="user-name">{userInfo?.name}</span>
-          <span className="user-logout">
-            <Popconfirm
-            onConfirm={onConfirm} title="是否确认退出？" okText="退出" cancelText="取消">
-              <LogoutOutlined /> 退出
-            </Popconfirm>
-          </span>
-        </div>
-      </Header>
-      <Layout>
-        <Sider width={200} className="site-layout-background">
+     
+
+<Sider width={200} className="site-layout-background">
+<img src={logo} alt="logo" className="logo" />
+
           <Menu
             mode="inline"
             theme="dark"
             defaultSelectedKeys={[pathname]}
             style={{ height: "100%", borderRight: 0 }}
+            // items={items}
           >
             <Menu.Item icon={<HomeOutlined />} key="/">
               <Link to={"/"}>数据概览 </Link>
@@ -81,7 +105,24 @@ const OutLayout: React.FC<IProps> = () => {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout className="layout-content" style={{ padding: 20 }}>
+      <Layout>
+      <Header className="header">
+        <div className="user-info">
+          <span className="user-name">{userInfo?.name}</span>
+          <span className="user-logout">
+            <Popconfirm
+            onConfirm={onConfirm} title="是否确认退出？" okText="退出" cancelText="取消">
+              <LogoutOutlined /> 退出
+            </Popconfirm>
+          </span>
+        </div>
+      </Header>
+      
+        <Layout className="layout-content" >
+        {/* <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb.Item>User</Breadcrumb.Item>
+            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          </Breadcrumb> */}
           <Outlet />
         </Layout>
       </Layout>
