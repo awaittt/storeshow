@@ -1,5 +1,6 @@
 .ant-layout {
     height: 100%;
+    overflow: hidden;
   }
   
   .header {
@@ -8,7 +9,7 @@
   
   .logo {
     width: 200px;
-    height: 60px;
+    height: 64px;
     object-fit: contain;
   }
   
@@ -34,4 +35,10 @@
   }
   .ant-layout-header {
     padding: 0 !important;
+  }
+
+  .menu{
+    & >:first-child{
+      margin-top: 0 !important;
+    }
   }

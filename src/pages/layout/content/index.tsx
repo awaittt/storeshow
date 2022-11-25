@@ -20,12 +20,23 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import img404 from "../../../img/dd.jpeg";
 import { http } from "../../../utils";
 import { channel } from "diagnostics_channel";
+import type { ColumnsType } from 'antd/es/table';
+
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 interface Channel {
   id: string;
   name: string;
+}
+interface DataType{
+  cover:any,
+  title:string
+  status:string
+  pubdate:string
+  read_count:number
+  comment_count:number
+  like_count:number
 }
 function Content() {
   let [channelData, setChannelData] = useState<Array<Channel>>([]);
@@ -43,7 +54,7 @@ function Content() {
       }
     });
   };
-  const columns = [
+  const columns :ColumnsType<DataType> = [
     {
       title: "封面",
       dataIndex: "cover",
@@ -80,6 +91,8 @@ function Content() {
     },
     {
       title: "操作",
+      fixed:'right',
+      width:'100px',
       render: (value: any) => {
         return (
           <Space size="middle">
@@ -164,7 +177,6 @@ useEffect(() => {
             </Breadcrumb.Item>
             <Breadcrumb.Item>内容管理</Breadcrumb.Item>
           </Breadcrumb>
-         
         }
         style={{ marginBottom: 20 }}
       >

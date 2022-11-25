@@ -9,6 +9,7 @@ import {AuthComponent} from './Component/AuthComponent'
 import Home from './pages/layout/home';
 import Article from './pages/layout/article';
 import Content from './pages/layout/content';
+import { MapModal } from './pages/layout/map';
 function App() {
   return (
     <BrowserRouter>
@@ -19,7 +20,8 @@ function App() {
           <OutLayout/>
           </AuthComponent>
         }>
-          <Route index element={<Home/>}></Route>
+          <Route index element={<MapModal/>}></Route>
+          <Route path='data' element={<Home/>}></Route>
           <Route path='article' element={<Article/>}></Route>
           <Route path='content' element={<Content/>}></Route>
         </Route>

@@ -43,6 +43,7 @@ const OutLayout: React.FC<IProps> = () => {
   }
   const navigate=useNavigate()
 
+  //路由守卫
   const onConfirm=()=>{
     loginStore.clearToken();
     navigate('/login')
@@ -93,9 +94,13 @@ const items: MenuItem[] = [
             defaultSelectedKeys={[pathname]}
             style={{ height: "100%", borderRight: 0 }}
             // items={items}
-          >
-            <Menu.Item icon={<HomeOutlined />} key="/">
-              <Link to={"/"}>数据概览 </Link>
+            className="menu"
+>
+             <Menu.Item icon={<HomeOutlined />} key="/">
+              <Link to={"/"}>主页 </Link>
+            </Menu.Item>
+            <Menu.Item icon={<HomeOutlined />} key="/data">
+              <Link to={"/data"}>数据概览 </Link>
             </Menu.Item>
             <Menu.Item icon={<DiffOutlined />} key="/content">
               <Link to={"/content"}>内容管理 </Link>
@@ -103,6 +108,7 @@ const items: MenuItem[] = [
             <Menu.Item icon={<EditOutlined />} key="/article">
               <Link to={"/article"}>发布文章 </Link>
             </Menu.Item>
+            
           </Menu>
         </Sider>
       <Layout>
